@@ -4,28 +4,36 @@ const app = express();
 const port = 3002;
 
 const buyRequest = async () => {
-  const buy1 = await axios.get(
+  const buy1 = axios.get(
     "http://api.nbp.pl/api/cenyzlota/2021-08-01/2022-07-25/"
   );
-  const buy2 = await axios.get(
+  const buy2 = axios.get(
     "http://api.nbp.pl/api/cenyzlota/2020-08-25/2021-08-24/"
   );
-  const buy3 = await axios.get(
+  const buy3 = axios.get(
     "http://api.nbp.pl/api/cenyzlota/2019-08-25/2020-08-24/"
   );
-  const buy4 = await axios.get(
+  const buy4 = axios.get(
     "http://api.nbp.pl/api/cenyzlota/2018-08-25/2019-08-24/"
   );
-  const buy5 = await axios.get(
+  const buy5 = axios.get(
     "http://api.nbp.pl/api/cenyzlota/2017-08-24/2018-08-25/"
   );
+
+  const [res1, res2, res3, res4, res5] = await Promise.all([
+    buy1,
+    buy2,
+    buy3,
+    buy4,
+    buy5,
+  ]);
   const prices = [
-    ...buy1.data,
-    ...buy1.data,
-    ...buy2.data,
-    ...buy3.data,
-    ...buy4.data,
-    ...buy5.data,
+    ...res1.data,
+    ...res1.data,
+    ...res2.data,
+    ...res3.data,
+    ...res4.data,
+    ...res5.data,
   ];
   let minPrice = 10000000;
   let minIndex = 999999999;
@@ -40,29 +48,37 @@ const buyRequest = async () => {
 };
 
 const exchangeRequest = async () => {
-  const ex1 = await axios.get(
+  const ex1 = axios.get(
     "http://api.nbp.pl/api/exchangerates/rates/a/gbp/2021-08-01/2022-07-25/"
   );
-  const ex2 = await axios.get(
+  const ex2 = axios.get(
     "http://api.nbp.pl/api/exchangerates/rates/a/gbp/2020-08-25/2021-08-24/"
   );
-  const ex3 = await axios.get(
+  const ex3 = axios.get(
     "http://api.nbp.pl/api/exchangerates/rates/a/gbp/2019-08-25/2020-08-24/"
   );
-  const ex4 = await axios.get(
+  const ex4 = axios.get(
     "http://api.nbp.pl/api/exchangerates/rates/a/gbp/2018-08-25/2019-08-24/"
   );
-  const ex5 = await axios.get(
+  const ex5 = axios.get(
     "http://api.nbp.pl/api/exchangerates/rates/a/gbp/2017-08-24/2018-08-25/"
   );
 
+  const [res1, res2, res3, res4, res5] = await Promise.all([
+    ex1,
+    ex2,
+    ex3,
+    ex4,
+    ex5,
+  ]);
+
   const prices = [
-    ...ex1.data.rates,
-    ...ex1.data.rates,
-    ...ex2.data.rates,
-    ...ex3.data.rates,
-    ...ex4.data.rates,
-    ...ex5.data.rates,
+    ...res1.data.rates,
+    ...res1.data.rates,
+    ...res2.data.rates,
+    ...res3.data.rates,
+    ...res4.data.rates,
+    ...res5.data.rates,
   ];
 
   let maxPrice = 0;
@@ -86,7 +102,7 @@ app.get("/", async (req, res) => {
 });
 app.get("/buy", async (req, res) => {
   const buy = await buyRequest();
-  res.send({ buy });
+  res.send( buy );
 });
 
 app.get("/sell", async (req, res) => {
@@ -95,5 +111,5 @@ app.get("/sell", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log("listening");
 });
