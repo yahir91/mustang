@@ -4,6 +4,12 @@
 
 This is an api that consumes from NPP Web Api to get the best price to buy and sell gold for the last 5 years.
 
+## Docker
+
+To run with docker exec the next command
+
+`docker run a30786a2abac'
+
 ## API Requqests
 
 Get '/'
